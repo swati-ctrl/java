@@ -1,3 +1,6 @@
 docker build -t my-java-app .
 docker-compose up
 
+
+ansible-playbook nginx-update.yaml
+
