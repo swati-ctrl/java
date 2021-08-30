@@ -1,0 +1,32 @@
+---
+ hosts: all
+ sudo: yes
+ serial: 1
+ 
+ 
+ tasks:
+  - name: Backup existing config
+    copy:
+     remote_src: yes
+     src: /etc/nginx/nginx.conf
+	 dest: /etc/nginx/nginx.conf_backup
+	
+  - name: Install software-properties-common
+    apt:
+     name: software-properties-common
+     state: present
+	
+  - name: Add nginx stable repository from PPA and install its signing key on target
+    ansible.builtin.apt_repository:
+     repo: ppa:nginx/stable	
+	
+  - name: Run the equivalent of "apt-get update" as a separate step
+    apt:
+     update_cache: yes	
+	
+  - name: Install nginx
+    apt:
+     name: nginx
+     state: present	
+	
+	
